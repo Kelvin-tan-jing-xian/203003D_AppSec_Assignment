@@ -26,13 +26,15 @@
                              &nbsp;</td>
                      </tr>
                      <tr>
-                         <asp:gridview id="gvUserInfo" width="109%" runat="server" datakeynames="Id" autogeneratecolumns="false" style="margin-right: 0px">
+                         <asp:gridview id="gvUserInfo" width="109%" runat="server" datakeynames="Id" autogeneratecolumns="False" style="margin-right: 0px">
                              <Columns>
                                  <asp:BoundField DataField="Id" HeaderText="Id" />
                                  <asp:BoundField DataField="FirstName" HeaderText="FirstName" />
                                  <asp:BoundField DataField="LastName" HeaderText="LastName" />
                                  <asp:BoundField DataField="Email" HeaderText="Email" />
                                  <asp:HyperLinkField DataNavigateUrlFields="Id" DataNavigateUrlFormatString="viewuser.aspx?id={0}" Text="View User" HeaderText="action" />
+                                 <asp:ImageField DataImageUrlField="Photo" DataImageUrlFormatString="/{0}" HeaderText="Photo" ControlStyle-Width="100" ControlStyle-Height = "100" ReadOnly="True">
+                                 </asp:ImageField>
                              </Columns>
                          </asp:gridview>
                      </tr>

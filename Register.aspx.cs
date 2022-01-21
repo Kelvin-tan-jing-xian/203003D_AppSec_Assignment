@@ -10,11 +10,16 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net.Mail;
+using System.Net;
+using System.IO;
+
 
 namespace _203003D_AppSec_Assignment
 {
     public partial class Register : System.Web.UI.Page
     {
+        static String activationcode;
         // Every page must initialise this
         string MYDBConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["MYDBConnection"].ConnectionString;
         static string finalHash;
@@ -23,7 +28,9 @@ namespace _203003D_AppSec_Assignment
         byte[] IV;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            RangeValidator1.MinimumValue = DateTime.Now.AddYears(-120).ToShortDateString();
+            RangeValidator1.MaximumValue = DateTime.Now.AddYears(-7).ToShortDateString();
+                
         }
         private int checkPassword(string password)
         {
@@ -66,66 +73,84 @@ namespace _203003D_AppSec_Assignment
         {
             int scores = checkPassword(tb_pwd.Text);
             string status = "";
-
+            HttpPostedFile postedFile = FileUpload1.PostedFile;
+            string fileName = Path.GetFileName(postedFile.FileName);
+            string fileExtension = Path.GetExtension(fileName);
             Page.Validate();
             if (Page.IsValid == true)
             {
-                // Server side validation
-                switch (scores)
+                if (checkemail() == true)
                 {
-                    case 1:
-                        status = "Very Weak";
-                        break;
-                    case 2:
-                        status = "Weak";
-                        break;
-                    case 3:
-                        status = "Medium";
-                        break;
-                    case 4:
-                        status = "Strong";
-                        break;
-                    case 5:
-                        status = "Very Strong";
-                        break;
-                    default:
-                        break;
-                }
-                lbl_pwdchecker.Text = "Status: " + status;
-                if (scores < 4)
-                {
-                    lbl_pwdchecker.ForeColor = Color.Red;
-                    return;
-                }
-                lbl_pwdchecker.ForeColor = Color.Green;
+                    Label1.Text = "Invalid email";
 
-                string pwd = tb_pwd.Text.ToString().Trim();
-                //Generate random "salt"
-                RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-                byte[] saltByte = new byte[8];
-                //Fills array of bytes with a cryptographically strong sequence of random values.
-                rng.GetBytes(saltByte);
-                salt = Convert.ToBase64String(saltByte);
-                SHA512Managed hashing = new SHA512Managed();
-                string pwdWithSalt = pwd + salt;
-                byte[] plainHash = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwd));
-                byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
-                finalHash = Convert.ToBase64String(hashWithSalt);
-                RijndaelManaged cipher = new RijndaelManaged();
-                cipher.GenerateKey();
-                Key = cipher.Key;
-                IV = cipher.IV;
-                createAccount();
-                Response.Redirect("Login.aspx", false);
+                }
+                else
+                {
+                    if (fileExtension.ToLower() == ".jpg" || fileExtension.ToLower() == ".bmp" || fileExtension.ToLower() == ".gif" || fileExtension.ToLower() == ".png")
+                    {
+                        // Server side validation for password
+                        switch (scores)
+                        {
+                            case 1:
+                                status = "Very Weak, please strengthen your password";
+                                break;
+                            case 2:
+                                status = "Weak, please strengthen your password";
+                                break;
+                            case 3:
+                                status = "Medium, please strengthen your password";
+                                break;
+                            case 4:
+                                status = "Strong, but can be better";
+                                break;
+                            case 5:
+                                status = "Excellent";
+                                break;
+                            default:
+                                break;
+                        }
+                        lbl_pwdchecker.Text = "Status: " + status;
+                        if (scores < 5)
+                        {
+                            lbl_pwdchecker.ForeColor = Color.Red;
+                            return;
+                        }
+                        // continue on with processing
+                        lbl_pwdchecker.ForeColor = Color.Green;
+
+                        string pwd = tb_pwd.Text.ToString().Trim();
+                        //Generate random "salt"
+                        RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                        byte[] saltByte = new byte[8];
+                        //Fills array of bytes with a cryptographically strong sequence of random values.
+                        rng.GetBytes(saltByte);
+                        salt = Convert.ToBase64String(saltByte);
+                        SHA512Managed hashing = new SHA512Managed();
+                        string pwdWithSalt = pwd + salt;
+                        byte[] plainHash = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwd));
+                        byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
+                        finalHash = Convert.ToBase64String(hashWithSalt);
+                        RijndaelManaged cipher = new RijndaelManaged();
+                        cipher.GenerateKey();
+                        Key = cipher.Key;
+                        IV = cipher.IV;
+                        createAccount();
+                        Response.Redirect("Login.aspx", false);
+
+                    }
+                    else
+                    {
+                        Label2.Text = "Only images (.jpg, .png, .gif and .bmp) can be uploaded";
+                    }
+
+
+                }
+
             }
             else
             {
                    return;
             }
-
-
-
-
         }
         protected void createAccount()
         {
@@ -133,7 +158,7 @@ namespace _203003D_AppSec_Assignment
             {
                 using (SqlConnection con = new SqlConnection(MYDBConnectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("INSERT INTO Account VALUES(@FirstName, @LastName, @CardName, @CardNumber, @CVV, @CardExpiryDate, @BirthDate, @Email, @PasswordHash, @PasswordSalt, @DateTimeRegistered, @EmailVerified, @Photo, @IV, @Key)"))
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO Account VALUES(@FirstName, @LastName, @CardName, @CardNumber, @CVV, @CardExpiryDate, @BirthDate, @Email, @PasswordHash, @PasswordSalt, @DateTimeRegistered, @EmailVerified, @Photo, @IV, @Key, @ActivationCode)"))
                     {
                         using (SqlDataAdapter sda = new SqlDataAdapter())
                         {
@@ -152,10 +177,18 @@ namespace _203003D_AppSec_Assignment
                             cmd.Parameters.AddWithValue("@PasswordHash", finalHash);
                             cmd.Parameters.AddWithValue("@PasswordSalt", salt);
                             cmd.Parameters.AddWithValue("@DateTimeRegistered", DateTime.Now);
-                            cmd.Parameters.AddWithValue("@EmailVerified", DBNull.Value);
-                            cmd.Parameters.AddWithValue("@Photo", tb_photo.Text.Trim());
+                            cmd.Parameters.AddWithValue("@EmailVerified", "Unverified");
+
+                            FileUpload1.SaveAs(Server.MapPath("~/Photos/") + Path.GetFileName(FileUpload1.FileName));
+                            string link = "Photos/" + Path.GetFileName(FileUpload1.FileName);
+                            cmd.Parameters.AddWithValue("@Photo", link);
+
                             cmd.Parameters.AddWithValue("@IV", Convert.ToBase64String(IV));
                             cmd.Parameters.AddWithValue("@Key", Convert.ToBase64String(Key));
+
+                            Random random = new Random();
+                            activationcode = random.Next(1001, 9999).ToString();
+                            cmd.Parameters.AddWithValue("@ActivationCode", activationcode);
 
                             cmd.Connection = con;
                             con.Open();
@@ -168,7 +201,33 @@ namespace _203003D_AppSec_Assignment
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString());
+                //throw new Exception(ex.ToString());
+                Label3.Text = "Sorry, something went wrong.";
+            }
+        }
+
+        private Boolean checkemail()
+        {
+            Boolean emailavailable = false;
+            using (SqlConnection con = new SqlConnection(MYDBConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("Select * from Account where Email= @Email", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@Email", tb_email.Text.Trim());
+                        sda.SelectCommand = cmd;
+                        DataSet ds = new DataSet();
+                        sda.Fill(ds);
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            emailavailable = true;
+                        }
+                        con.Close();
+                        return emailavailable;
+                    }
+                }
             }
         }
 
@@ -191,5 +250,6 @@ namespace _203003D_AppSec_Assignment
             finally { }
             return cipherText;
         }
+
     }
 }

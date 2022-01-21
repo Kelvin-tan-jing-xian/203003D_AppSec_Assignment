@@ -23,7 +23,7 @@ namespace _203003D_AppSec_Assignment
                 {
                     conn.Open();
                     SqlDataAdapter adapter = new SqlDataAdapter();
-                    SqlCommand cmd = new SqlCommand("SELECT Id, FirstName, LastName, Email FROM Account", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT Id, FirstName, LastName, Email, Photo FROM Account", conn);
                     cmd.CommandType = CommandType.Text;
                     adapter.SelectCommand = cmd;
                     adapter.Fill(dset);
@@ -45,7 +45,7 @@ namespace _203003D_AppSec_Assignment
                     {
                         conn.Open();
                         SqlDataAdapter adapter = new SqlDataAdapter();
-                        string sqlQuery = string.Format("SELECT Id, FirstName, LastName, Email FROM Account WHERE Id =@0");
+                        string sqlQuery = string.Format("SELECT Id, FirstName, LastName, Email, Photo FROM Account WHERE Id =@0");
                         SqlCommand cmd = new SqlCommand(sqlQuery, conn);
                         cmd.CommandType = CommandType.Text;
                         cmd.Parameters.AddWithValue("@0", txtUserID.Text);

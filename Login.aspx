@@ -24,7 +24,7 @@
                 <br />
                 <br />
                 <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response"/>
-                <asp:Label ID="loginMessage" runat="server" EnableViewState="false" Text=""></asp:Label>
+                <asp:Label ID="loginMessage" runat="server" EnableViewState="False" ForeColor="Red"></asp:Label>
                 <br />
 
         </div>

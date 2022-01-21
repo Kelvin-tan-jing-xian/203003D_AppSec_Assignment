@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="ActivateEmail.aspx" />
     <Content Include="App_Data\MyDatabase.mdf" />
     <Content Include="App_Data\MyDatabase_log.ldf">
       <DependentUpon>MyDatabase.mdf</DependentUpon>
@@ -119,6 +120,10 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="CustomError\GenericError.aspx" />
+    <Content Include="CustomError\HTTP400.aspx" />
+    <Content Include="CustomError\HTTP403.aspx" />
+    <Content Include="CustomError\HTTP404.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -252,6 +257,13 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivateEmail.aspx.cs">
+      <DependentUpon>ActivateEmail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ActivateEmail.aspx.designer.cs">
+      <DependentUpon>ActivateEmail.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
@@ -274,6 +286,34 @@
     </Compile>
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomError\GenericError.aspx.cs">
+      <DependentUpon>GenericError.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomError\GenericError.aspx.designer.cs">
+      <DependentUpon>GenericError.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomError\HTTP400.aspx.cs">
+      <DependentUpon>HTTP400.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomError\HTTP400.aspx.designer.cs">
+      <DependentUpon>HTTP400.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomError\HTTP403.aspx.cs">
+      <DependentUpon>HTTP403.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomError\HTTP403.aspx.designer.cs">
+      <DependentUpon>HTTP403.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomError\HTTP404.aspx.cs">
+      <DependentUpon>HTTP404.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomError\HTTP404.aspx.designer.cs">
+      <DependentUpon>HTTP404.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
