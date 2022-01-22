@@ -35,7 +35,7 @@
             <tr>
                 <td class="auto-style4">&nbsp;</td>
                 <td>
-                    <asp:Button ID="Button1" runat="server" Text="Verify Email" />
+                    <asp:Button ID="Button1" runat="server" Text="Verify Email" OnClick="Button1_Click" />
                 </td>
             </tr>
         </table>

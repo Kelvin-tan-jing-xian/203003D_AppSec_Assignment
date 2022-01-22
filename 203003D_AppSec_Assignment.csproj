@@ -108,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
-    <Content Include="ActivateEmail.aspx" />
+    <Content Include="Registration\ActivateEmail.aspx" />
     <Content Include="App_Data\MyDatabase.mdf" />
     <Content Include="App_Data\MyDatabase_log.ldf">
       <DependentUpon>MyDatabase.mdf</DependentUpon>
@@ -259,11 +259,11 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivateEmail.aspx.cs">
+    <Compile Include="Registration\ActivateEmail.aspx.cs">
       <DependentUpon>ActivateEmail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ActivateEmail.aspx.designer.cs">
+    <Compile Include="Registration\ActivateEmail.aspx.designer.cs">
       <DependentUpon>ActivateEmail.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />

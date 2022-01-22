@@ -135,7 +135,8 @@ namespace _203003D_AppSec_Assignment
                         Key = cipher.Key;
                         IV = cipher.IV;
                         createAccount();
-                        Response.Redirect("Login.aspx", false);
+                        sendCode();
+                        Response.Redirect("ActivateEmail.aspx?emailadd=" + tb_email.Text);
 
                     }
                     else
@@ -158,7 +159,7 @@ namespace _203003D_AppSec_Assignment
             {
                 using (SqlConnection con = new SqlConnection(MYDBConnectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("INSERT INTO Account VALUES(@FirstName, @LastName, @CardName, @CardNumber, @CVV, @CardExpiryDate, @BirthDate, @Email, @PasswordHash, @PasswordSalt, @DateTimeRegistered, @EmailVerified, @Photo, @IV, @Key, @ActivationCode)"))
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO Account VALUES(@FirstName, @LastName, @CardName, @CardNumber, @CVV, @CardExpiryDate, @BirthDate, @Email, @PasswordHash, @PasswordSalt, @DateTimeRegistered, @EmailVerified, @Photo, @IV, @Key, @ActivationCode, @role)"))
                     {
                         using (SqlDataAdapter sda = new SqlDataAdapter())
                         {
@@ -189,6 +190,7 @@ namespace _203003D_AppSec_Assignment
                             Random random = new Random();
                             activationcode = random.Next(1001, 9999).ToString();
                             cmd.Parameters.AddWithValue("@ActivationCode", activationcode);
+                            cmd.Parameters.AddWithValue("@role", "student");
 
                             cmd.Connection = con;
                             con.Open();
@@ -203,6 +205,29 @@ namespace _203003D_AppSec_Assignment
             {
                 //throw new Exception(ex.ToString());
                 Label3.Text = "Sorry, something went wrong.";
+            }
+        }
+        private void sendCode()
+        {
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.Credentials = new NetworkCredential("dummytrashtest12@gmail.com", "");
+            smtp.EnableSsl = true;
+            MailMessage msg = new MailMessage();
+            msg.Subject = "Verify your email address";
+            msg.Body = "Dear " + tb_fname.Text + ", Your activation code is " + activationcode + "\n\n\nThanks & Regards\nSITConnect";
+            string toaddress = tb_email.Text;
+            msg.To.Add(toaddress);
+            string fromaddress = "SITConnect <dummytrashtest12@gmail.com>";
+            msg.From = new MailAddress(fromaddress);
+            try
+            {
+                smtp.Send(msg);
+            }
+            catch
+            {
+                throw;
             }
         }
 
