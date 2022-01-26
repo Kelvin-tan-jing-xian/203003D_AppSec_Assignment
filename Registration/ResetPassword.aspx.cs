@@ -35,7 +35,7 @@ namespace _203003D_AppSec_Assignment
                     if (Convert.ToBoolean(rdr["ReturnCode"]))
                     {
                         SendPasswordResetEmail(rdr["Email"].ToString(), TextBox1.Text, rdr["UniqueId"].ToString());
-                        Label2.Text = "An email with instructions to reset your password is sent to your inbox";
+                        Label2.Text = "An email with instructions to reset your password is sent to " + rdr["Email"].ToString();
 
                     }
                     else
@@ -54,7 +54,7 @@ namespace _203003D_AppSec_Assignment
             sbEmailBody.Append("Dear " + UserName + ",<br/><br/>");
             sbEmailBody.Append("Please click on the following link to reset your password");
             sbEmailBody.Append("<br/>");
-            sbEmailBody.Append("http://localhost:44378/Registration/ChangePassword.aspx?uid=" + UniqueId);
+            sbEmailBody.Append("https://localhost:44378/Registration/ChangePassword.aspx?uid=" + UniqueId);
             sbEmailBody.Append("<br/><br/>");
             sbEmailBody.Append("<b>SITConnect</b>");
 
@@ -65,8 +65,8 @@ namespace _203003D_AppSec_Assignment
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
             smtpClient.Credentials = new System.Net.NetworkCredential()
             {
-                UserName = "dummytrashtest12@gmail.com",
-                Password = "tedyuBq,wNuMtNqq6ls7^PjW,T,tSf5D"
+                UserName = "dummytrashtest2@gmail.com",
+                Password = ""
             };
             smtpClient.EnableSsl = true;
             smtpClient.Send(mailMessage);

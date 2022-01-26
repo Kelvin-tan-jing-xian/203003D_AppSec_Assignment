@@ -212,14 +212,14 @@ namespace _203003D_AppSec_Assignment
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
             smtp.Port = 587;
-            smtp.Credentials = new NetworkCredential("dummytrashtest12@gmail.com", "");
+            smtp.Credentials = new NetworkCredential("dummytrashtest2@gmail.com", "");
             smtp.EnableSsl = true;
             MailMessage msg = new MailMessage();
             msg.Subject = "Verify your email address";
             msg.Body = "Dear " + tb_fname.Text + ", Your activation code is " + activationcode + "\n\n\nThanks & Regards\nSITConnect";
             string toaddress = tb_email.Text;
             msg.To.Add(toaddress);
-            string fromaddress = "SITConnect <dummytrashtest12@gmail.com>";
+            string fromaddress = "SITConnect <dummytrashtest2@gmail.com>";
             msg.From = new MailAddress(fromaddress);
             try
             {

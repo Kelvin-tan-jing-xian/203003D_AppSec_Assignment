@@ -24,6 +24,10 @@
 </head>
 <body>
     <h1>Verify Your Email Address</h1>
+    <br />
+    <asp:Label ID="Label1" runat="server"></asp:Label>
+    <br />
+
     <form id="form1" runat="server">
         <table class="auto-style1">
             <tr>
@@ -39,7 +43,6 @@
                 </td>
             </tr>
         </table>
-        <asp:Label ID="Label1" runat="server"></asp:Label>
     </form>
 </body>
 </html>

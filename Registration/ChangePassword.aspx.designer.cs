@@ -105,6 +105,15 @@ namespace _203003D_AppSec_Assignment.Registration
         protected global::System.Web.UI.WebControls.Label lblMessage;
 
         /// <summary>
+        /// HL_Login control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HL_Login;
+
+        /// <summary>
         /// ValidationSummary1 control.
         /// </summary>
         /// <remarks>

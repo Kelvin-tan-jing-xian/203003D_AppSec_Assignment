@@ -40,7 +40,7 @@
                         <td class="auto-style3">
                 <asp:Label ID="lbl_pwd" runat="server" Text="Password"></asp:Label>
                         </td>
-                        <td class="auto-style4"><asp:TextBox ID="tb_pwd" runat="server"></asp:TextBox>
+                        <td class="auto-style4"><asp:TextBox ID="tb_pwd" TextMode="Password" runat="server"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
@@ -57,12 +57,12 @@
                     </tr>
                     <tr>
                         <td class="auto-style2">
-                <asp:Label ID="loginMessage" runat="server" EnableViewState="False" ForeColor="Red"></asp:Label>
-                        </td>
+                            &nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
                 </table>
                 <br />
+                <asp:Label ID="loginMessage" runat="server" EnableViewState="False" ForeColor="Red"></asp:Label>
                 <br />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <br />

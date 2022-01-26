@@ -24,7 +24,7 @@
         <asp:Label ID="Label1" runat="server" Text="New Password"></asp:Label>
             </td>
             <td>
-        <asp:TextBox ID="txtNewPassword" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txtNewPassword" TextMode="Password" runat="server"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtNewPassword" ErrorMessage="New Password field is required" ForeColor="Red" SetFocusOnError="True">*</asp:RequiredFieldValidator>
             </td>
         </tr>
@@ -33,7 +33,7 @@
         <asp:Label ID="Label2" runat="server" Text="Confirm New Password"></asp:Label>
             </td>
             <td>
-        <asp:TextBox ID="txtConfirmNewPassword" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txtConfirmNewPassword" TextMode="Password" runat="server"></asp:TextBox>
                 <asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Passwords do not match" ControlToCompare="txtNewPassword" ControlToValidate="txtConfirmNewPassword" ForeColor="Red" SetFocusOnError="True">*</asp:CompareValidator>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtConfirmNewPassword" ErrorMessage="Confirm New Password field is required" ForeColor="Red" SetFocusOnError="True">*</asp:RequiredFieldValidator>
             </td>
@@ -46,11 +46,14 @@
         </tr>
         <tr>
             <td class="auto-style2">
-                <asp:Label ID="lblMessage" runat="server" ></asp:Label>
-            </td>
+                &nbsp;</td>
             <td>&nbsp;</td>
         </tr>
     </table>
+                <asp:Label ID="lblMessage" runat="server" ></asp:Label>
+            <br />
+        <br />
+        <asp:HyperLink ID="HL_Login" runat="server" NavigateUrl="~/Login.aspx" Visible="False">Go to Login Page</asp:HyperLink>
         <asp:ValidationSummary ID="ValidationSummary1" runat="server" ForeColor="Red" />
     </form>
     </body>

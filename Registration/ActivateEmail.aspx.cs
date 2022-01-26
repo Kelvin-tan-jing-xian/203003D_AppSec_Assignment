@@ -39,6 +39,7 @@ namespace _203003D_AppSec_Assignment
                 }
                 else
                 {
+                    Label1.ForeColor = System.Drawing.Color.Red;
                     Label1.Text = "Invalid activation code, please check your inbox and spam folder";
                 }
             }
