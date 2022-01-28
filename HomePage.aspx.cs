@@ -15,7 +15,7 @@ namespace _203003D_AppSec_Assignment
             {
                 if (!Session["AuthToken"].ToString().Equals(Request.Cookies["AuthToken"].Value))
                 {
-                    Response.Redirect("Login.aspx", false);
+                    Response.Redirect("~/Auth/Login.aspx", false);
                 }
                 else
                 {
@@ -27,7 +27,7 @@ namespace _203003D_AppSec_Assignment
             }
             else
             {
-                Response.Redirect("Login.aspx", false);
+                Response.Redirect("~/Auth/Login.aspx", false);
             }
         }
         protected void LogoutMe(object sender, EventArgs e)
@@ -35,7 +35,7 @@ namespace _203003D_AppSec_Assignment
             Session.Clear();
             Session.Abandon();
             Session.RemoveAll();
-            Response.Redirect("Login.aspx", false);
+            Response.Redirect("~/Auth/Login.aspx", false);
             if (Request.Cookies["ASP.NET_SessionId"] != null)
             {
                 Response.Cookies["ASP.NET_SessionId"].Value = string.Empty;

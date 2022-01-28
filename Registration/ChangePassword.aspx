@@ -53,7 +53,7 @@
                 <asp:Label ID="lblMessage" runat="server" ></asp:Label>
             <br />
         <br />
-        <asp:HyperLink ID="HL_Login" runat="server" NavigateUrl="~/Login.aspx" Visible="False">Go to Login Page</asp:HyperLink>
+        <asp:HyperLink ID="HL_Login" runat="server" NavigateUrl="~/Auth/Login.aspx" Visible="False">Go to Login Page</asp:HyperLink>
         <asp:ValidationSummary ID="ValidationSummary1" runat="server" ForeColor="Red" />
     </form>
     </body>

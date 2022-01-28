@@ -12,7 +12,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Data;
 using System.Data.SqlClient;
-
+using System.Net.Mail;
 
 namespace _203003D_AppSec_Assignment
 {
@@ -23,6 +23,7 @@ namespace _203003D_AppSec_Assignment
         static string salt;
         byte[] Key;
         byte[] IV;
+        static String otp;
 
         public class MyObject
         {
@@ -107,8 +108,9 @@ namespace _203003D_AppSec_Assignment
 
                             // now create a new cookie with this guid value
                             Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+                            sendCode();
+                            Response.Redirect("~/Auth/EnterOTP.aspx?emailadd=" + tb_email.Text, false);
 
-                            Response.Redirect("HomePage.aspx", false);
                         }
                         else
                         {
@@ -193,5 +195,45 @@ namespace _203003D_AppSec_Assignment
             finally { connection.Close(); }
             return s;
         }
+        private void sendCode()
+        {
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.Credentials = new NetworkCredential("", "");
+            smtp.EnableSsl = true;
+            MailMessage msg = new MailMessage();
+            msg.Subject = "Here's your OTP code";
+
+            string myquery = "Select * from Account where Email='" + tb_email.Text + "'";
+            SqlConnection con = new SqlConnection(MYDBConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = myquery;
+            cmd.Connection = con;
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                otp = ds.Tables[0].Rows[0]["OTP"].ToString();
+            }
+            con.Close();
+            msg.Body = "Your otp is " + otp + ". Kindly enter this code to login."+"\n\n\nThanks & Regards\nSITConnect";
+
+            string toaddress = tb_email.Text;
+            msg.To.Add(toaddress);
+            string fromaddress = "SITConnect <dummytrashtest2@gmail.com>";
+            msg.From = new MailAddress(fromaddress);
+            try
+            {
+                smtp.Send(msg);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }

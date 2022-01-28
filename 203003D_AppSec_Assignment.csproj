@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="Auth\EnterOTP.aspx" />
     <Content Include="Registration\ActivateEmail.aspx" />
     <Content Include="App_Data\MyDatabase.mdf" />
     <Content Include="App_Data\MyDatabase_log.ldf">
@@ -152,7 +153,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="HomePage.aspx" />
-    <Content Include="Login.aspx" />
+    <Content Include="Auth\Login.aspx" />
     <Content Include="Registration\Register.aspx" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -259,6 +260,13 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auth\EnterOTP.aspx.cs">
+      <DependentUpon>EnterOTP.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Auth\EnterOTP.aspx.designer.cs">
+      <DependentUpon>EnterOTP.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Registration\ActivateEmail.aspx.cs">
       <DependentUpon>ActivateEmail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -334,11 +342,11 @@
     <Compile Include="HomePage.aspx.designer.cs">
       <DependentUpon>HomePage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Login.aspx.cs">
+    <Compile Include="Auth\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Login.aspx.designer.cs">
+    <Compile Include="Auth\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ManageUsers.aspx.cs">

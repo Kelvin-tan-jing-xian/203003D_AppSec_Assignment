@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
-using System.Data.SqlClient;
 
-namespace _203003D_AppSec_Assignment
+namespace _203003D_AppSec_Assignment.Auth
 {
-    public partial class ActivateEmail : System.Web.UI.Page
+    public partial class EnterOTP : System.Web.UI.Page
     {
         string MYDBConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["MYDBConnection"].ConnectionString;
         static string finalHash;
@@ -19,7 +19,7 @@ namespace _203003D_AppSec_Assignment
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Label1.Text = "Your email is " + Request.QueryString["emailadd"].ToString() + " , Kindly check your mail inbox for activation code";
+            lbl_display.Text = "Your email is " + Request.QueryString["emailadd"].ToString() + " , Kindly check your mail inbox for OTP code";
         }
 
         protected void Button1_Click(object sender, EventArgs e)
@@ -35,31 +35,18 @@ namespace _203003D_AppSec_Assignment
             da.Fill(ds);
             if (ds.Tables[0].Rows.Count > 0)
             {
-                string activationcode;
-                activationcode = ds.Tables[0].Rows[0]["ActivationCode"].ToString();
-                if (activationcode == TextBox1.Text)
+                string dbOtp = ds.Tables[0].Rows[0]["OTP"].ToString();
+                if (dbOtp == TextBox1.Text)
                 {
-                    changestatus();
-                    Response.Redirect("~/Auth/Login.aspx", false);
+                    Response.Redirect("~/HomePage.aspx", false);
                 }
                 else
                 {
-                    Label1.ForeColor = System.Drawing.Color.Red;
-                    Label1.Text = "Invalid activation code, please check your inbox and spam folder";
+                    lbl_error.ForeColor = System.Drawing.Color.Red;
+                    lbl_error.Text = "Invalid OTP code, please check your inbox and spam folder";
                 }
             }
             con.Close();
-        }
-        private void changestatus()
-        {
-            string updatedata = "Update Account set EmailVerified = 'Verified' where Email = '" + Request.QueryString["emailadd"] + "'";
-            SqlConnection con = new SqlConnection(MYDBConnectionString);
-            con.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = updatedata;
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
-
         }
     }
 }

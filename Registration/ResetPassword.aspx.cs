@@ -65,7 +65,7 @@ namespace _203003D_AppSec_Assignment
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
             smtpClient.Credentials = new System.Net.NetworkCredential()
             {
-                UserName = "dummytrashtest2@gmail.com",
+                UserName = "",
                 Password = ""
             };
             smtpClient.EnableSsl = true;

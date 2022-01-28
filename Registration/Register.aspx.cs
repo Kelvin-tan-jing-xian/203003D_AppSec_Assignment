@@ -20,6 +20,8 @@ namespace _203003D_AppSec_Assignment
     public partial class Register : System.Web.UI.Page
     {
         static String activationcode;
+        static String otp;
+        
         // Every page must initialise this
         string MYDBConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["MYDBConnection"].ConnectionString;
         static string finalHash;
@@ -159,7 +161,7 @@ namespace _203003D_AppSec_Assignment
             {
                 using (SqlConnection con = new SqlConnection(MYDBConnectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("INSERT INTO Account VALUES(@FirstName, @LastName, @CardName, @CardNumber, @CVV, @CardExpiryDate, @BirthDate, @Email, @PasswordHash, @PasswordSalt, @DateTimeRegistered, @EmailVerified, @Photo, @IV, @Key, @ActivationCode, @role)"))
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO Account VALUES(@FirstName, @LastName, @CardName, @CardNumber, @CVV, @CardExpiryDate, @BirthDate, @Email, @PasswordHash, @PasswordSalt, @DateTimeRegistered, @EmailVerified, @Photo, @IV, @Key, @ActivationCode, @role, @OTP)"))
                     {
                         using (SqlDataAdapter sda = new SqlDataAdapter())
                         {
@@ -192,6 +194,9 @@ namespace _203003D_AppSec_Assignment
                             cmd.Parameters.AddWithValue("@ActivationCode", activationcode);
                             cmd.Parameters.AddWithValue("@role", "student");
 
+                            otp = random.Next(1001, 9999).ToString();
+                            cmd.Parameters.AddWithValue("@OTP", otp);
+
                             cmd.Connection = con;
                             con.Open();
                             cmd.ExecuteNonQuery();
@@ -212,7 +217,7 @@ namespace _203003D_AppSec_Assignment
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
             smtp.Port = 587;
-            smtp.Credentials = new NetworkCredential("dummytrashtest2@gmail.com", "");
+            smtp.Credentials = new NetworkCredential("", "");
             smtp.EnableSsl = true;
             MailMessage msg = new MailMessage();
             msg.Subject = "Verify your email address";
