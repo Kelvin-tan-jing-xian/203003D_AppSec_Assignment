@@ -36,6 +36,7 @@ namespace _203003D_AppSec_Assignment.Registration
         {
             if (ChangeUserPassword())
             {
+                lblMessage.ForeColor = Color.Green;
                 lblMessage.Text = "Password Changed Successfully!";
                 HL_Login.Visible = true;
             }

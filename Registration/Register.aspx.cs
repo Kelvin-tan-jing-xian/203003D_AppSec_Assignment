@@ -161,7 +161,7 @@ namespace _203003D_AppSec_Assignment
             {
                 using (SqlConnection con = new SqlConnection(MYDBConnectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("INSERT INTO Account VALUES(@FirstName, @LastName, @CardName, @CardNumber, @CVV, @CardExpiryDate, @BirthDate, @Email, @PasswordHash, @PasswordSalt, @DateTimeRegistered, @EmailVerified, @Photo, @IV, @Key, @ActivationCode, @role, @OTP)"))
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO Account VALUES(@FirstName, @LastName, @CardName, @CardNumber, @CVV, @CardExpiryDate, @BirthDate, @Email, @PasswordHash, @PasswordSalt, @DateTimeRegistered, @EmailVerified, @Photo, @IV, @Key, @ActivationCode, @role)"))
                     {
                         using (SqlDataAdapter sda = new SqlDataAdapter())
                         {
@@ -194,8 +194,6 @@ namespace _203003D_AppSec_Assignment
                             cmd.Parameters.AddWithValue("@ActivationCode", activationcode);
                             cmd.Parameters.AddWithValue("@role", "student");
 
-                            otp = random.Next(100000, 999999).ToString();
-                            cmd.Parameters.AddWithValue("@OTP", otp);
 
                             cmd.Connection = con;
                             con.Open();

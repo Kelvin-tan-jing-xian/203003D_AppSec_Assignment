@@ -26,7 +26,7 @@
     </style>
 </head>
 <body>
-    <h1>Enter OTP here</h1>
+    <h1>OTP will expire in 60 secs</h1>
     <br />
     <asp:Label ID="lbl_display" runat="server"></asp:Label>
     <br />

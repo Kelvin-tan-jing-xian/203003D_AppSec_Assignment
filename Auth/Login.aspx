@@ -34,6 +34,8 @@
                 <asp:Label ID="lbl_userid" runat="server" Text="Email"></asp:Label>
                         </td>
                         <td> <asp:TextBox ID="tb_email" runat="server"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidatorEmail" runat="server" ControlToValidate="tb_email" ErrorMessage="Email is required" ForeColor="Red" SetFocusOnError="True">*</asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegexValidatorEmail" runat="server" ControlToValidate="tb_email" ErrorMessage="Incorrect email format" ForeColor="Red" SetFocusOnError="True" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">Invalid email</asp:RegularExpressionValidator>
                         </td>
                     </tr>
                     <tr>
@@ -41,6 +43,7 @@
                 <asp:Label ID="lbl_pwd" runat="server" Text="Password"></asp:Label>
                         </td>
                         <td class="auto-style4"><asp:TextBox ID="tb_pwd" TextMode="Password" runat="server"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidatorPassword" runat="server" ControlToValidate="tb_pwd" ErrorMessage="Password is required" ForeColor="Red" SetFocusOnError="True">*</asp:RequiredFieldValidator>
                         </td>
                     </tr>
                     <tr>

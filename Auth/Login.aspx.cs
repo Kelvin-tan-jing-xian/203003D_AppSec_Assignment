@@ -23,7 +23,7 @@ namespace _203003D_AppSec_Assignment
         static string salt;
         byte[] Key;
         byte[] IV;
-        static String otp;
+        static String randomNumber;
 
         public class MyObject
         {
@@ -108,6 +108,7 @@ namespace _203003D_AppSec_Assignment
 
                             // now create a new cookie with this guid value
                             Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+                            InsertOTPinDB();
                             sendCode();
                             Response.Redirect("~/Auth/EnterOTP.aspx?emailadd=" + tb_email.Text, false);
 
@@ -131,6 +132,23 @@ namespace _203003D_AppSec_Assignment
                 loginMessage.Text = "Validate captcha to prove that you are a human.";
             }
         }
+        public void InsertOTPinDB()
+        {
+            SqlConnection con = new SqlConnection(MYDBConnectionString);
+            SqlCommand cmd = new SqlCommand("INSERT INTO OTPHistoryTbl (Email,OTP,ctime_Stamp,status) VALUES (@Email,@OTP,@ctime_Stamp,@status) ", con);
+            con.Open();
+            cmd.Parameters.AddWithValue("@Email", tb_email.Text.ToString());
+
+            Random rnd = new Random();
+            randomNumber = (rnd.Next(100000, 999999)).ToString();
+            cmd.Parameters.AddWithValue("@OTP", randomNumber);
+
+            cmd.Parameters.AddWithValue("@ctime_Stamp", DateTime.Now.ToString());
+            cmd.Parameters.AddWithValue("@status", "0");
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
         protected string getDBHash(string userid)
         {
             string h = null;
@@ -205,10 +223,10 @@ namespace _203003D_AppSec_Assignment
             MailMessage msg = new MailMessage();
             msg.Subject = "Here's your OTP code";
 
-            string myquery = "Select * from Account where Email='" + tb_email.Text + "'";
             SqlConnection con = new SqlConnection(MYDBConnectionString);
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = myquery;
+            SqlCommand cmd = new SqlCommand("Select * from OTPHistoryTbl where ctime_Stamp=@ctime_Stamp", con);
+            cmd.Parameters.AddWithValue("@ctime_Stamp", DateTime.Now.ToString());
+
             cmd.Connection = con;
             SqlDataAdapter da = new SqlDataAdapter();
             da.SelectCommand = cmd;
@@ -216,10 +234,10 @@ namespace _203003D_AppSec_Assignment
             da.Fill(ds);
             if (ds.Tables[0].Rows.Count > 0)
             {
-                otp = ds.Tables[0].Rows[0]["OTP"].ToString();
+                randomNumber = ds.Tables[0].Rows[0]["OTP"].ToString();
             }
             con.Close();
-            msg.Body = "Your otp is " + otp + ". Kindly enter this code to login."+"\n\n\nThanks & Regards\nSITConnect";
+            msg.Body = "Your otp is " + randomNumber + ". Kindly enter this code to login."+"\n\n\nThanks & Regards\nSITConnect";
 
             string toaddress = tb_email.Text;
             msg.To.Add(toaddress);
