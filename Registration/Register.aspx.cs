@@ -194,7 +194,7 @@ namespace _203003D_AppSec_Assignment
                             cmd.Parameters.AddWithValue("@ActivationCode", activationcode);
                             cmd.Parameters.AddWithValue("@role", "student");
 
-                            otp = random.Next(1001, 9999).ToString();
+                            otp = random.Next(100000, 999999).ToString();
                             cmd.Parameters.AddWithValue("@OTP", otp);
 
                             cmd.Connection = con;
