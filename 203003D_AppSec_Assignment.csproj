@@ -109,6 +109,7 @@
   <ItemGroup>
     <Content Include="About.aspx" />
     <Content Include="Auth\EnterOTP.aspx" />
+    <Content Include="Photos\calendar.jpg" />
     <Content Include="Registration\ActivateEmail.aspx" />
     <Content Include="App_Data\MyDatabase.mdf" />
     <Content Include="App_Data\MyDatabase_log.ldf">
@@ -130,8 +131,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Admin\ManageUsers.aspx" />
-    <Content Include="Registration\ChangePassword.aspx" />
-    <Content Include="Registration\ResetPassword.aspx" />
+    <Content Include="Auth\ChangePassword.aspx" />
+    <Content Include="Auth\ResetPassword.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
@@ -357,11 +358,11 @@
       <DependentUpon>ManageUsers.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registration\ChangePassword.aspx.cs">
+    <Compile Include="Auth\ChangePassword.aspx.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Registration\ChangePassword.aspx.designer.cs">
+    <Compile Include="Auth\ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="Registration\Register.aspx.cs">
@@ -371,11 +372,11 @@
     <Compile Include="Registration\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Registration\ResetPassword.aspx.cs">
+    <Compile Include="Auth\ResetPassword.aspx.cs">
       <DependentUpon>ResetPassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Registration\ResetPassword.aspx.designer.cs">
+    <Compile Include="Auth\ResetPassword.aspx.designer.cs">
       <DependentUpon>ResetPassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
@@ -410,7 +411,6 @@
   <ItemGroup>
     <Folder Include="css\" />
     <Folder Include="js\" />
-    <Folder Include="Photos\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

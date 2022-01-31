@@ -19,14 +19,15 @@ namespace _203003D_AppSec_Assignment
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Label1.Text = "Your email is " + Request.QueryString["emailadd"].ToString() + " , Kindly check your mail inbox for activation code";
+            Label1.Text = "Your email is " + HttpUtility.HtmlEncode(Request.QueryString["emailadd"].ToString()) + " , Kindly check your mail inbox for activation code";
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            string myquery = "Select * from Account where Email='" + Request.QueryString["emailadd"] + "'";
+            string myquery = "Select * from Account where Email = @Email";
             SqlConnection con = new SqlConnection(MYDBConnectionString);
             SqlCommand cmd = new SqlCommand();
+            cmd.Parameters.AddWithValue("@Email", Request.QueryString["emailadd"]);
             cmd.CommandText = myquery;
             cmd.Connection = con;
             SqlDataAdapter da = new SqlDataAdapter();
@@ -52,10 +53,11 @@ namespace _203003D_AppSec_Assignment
         }
         private void changestatus()
         {
-            string updatedata = "Update Account set EmailVerified = 'Verified' where Email = '" + Request.QueryString["emailadd"] + "'";
+            string updatedata = "Update Account set EmailVerified = 'Verified' where Email = @Email";
             SqlConnection con = new SqlConnection(MYDBConnectionString);
             con.Open();
             SqlCommand cmd = new SqlCommand();
+            cmd.Parameters.AddWithValue("@Email", Request.QueryString["emailadd"]);
             cmd.CommandText = updatedata;
             cmd.Connection = con;
             cmd.ExecuteNonQuery();

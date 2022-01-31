@@ -47,7 +47,25 @@
             width: 232px;
         }
         .auto-style3 {
-            width: 77px;
+            width: 153px;
+        }
+        .auto-style4 {
+            width: 232px;
+            height: 48px;
+        }
+        .auto-style6 {
+            height: 48px;
+        }
+        .auto-style7 {
+            width: 232px;
+            height: 29px;
+        }
+        .auto-style8 {
+            width: 153px;
+            height: 29px;
+        }
+        .auto-style9 {
+            height: 29px;
         }
     </style>
 
@@ -61,7 +79,7 @@
                 <tr>
                     <td class="auto-style2">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Label ID="fname" runat="server" Text="First Name:"></asp:Label>
+            <asp:Label ID="fname" runat="server" Text="First Name"></asp:Label>
                     </td>
                     <td class="auto-style3"><asp:TextBox ID="tb_fname" runat="server"></asp:TextBox>
                     </td>
@@ -70,20 +88,20 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="auto-style2">
+                    <td class="auto-style7">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Label ID="lbl_lname" runat="server" Text="Last Name:"></asp:Label>
+            <asp:Label ID="lbl_lname" runat="server" Text="Last Name"></asp:Label>
                     </td>
-                    <td class="auto-style3"><asp:TextBox ID="tb_lname" runat="server"></asp:TextBox>
+                    <td class="auto-style8"><asp:TextBox ID="tb_lname" runat="server"></asp:TextBox>
                     </td>
-                    <td>
+                    <td class="auto-style9">
             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="tb_lname" Display="Dynamic" ErrorMessage="Last Name is required" ForeColor="Red" SetFocusOnError="True" ValidationGroup="AllValidators">*</asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
                     <td class="auto-style2">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Label ID="lbl_cardName" runat="server" Text="Name on card:"></asp:Label>
+            <asp:Label ID="lbl_cardName" runat="server" Text="Name on card"></asp:Label>
                     </td>
                     <td class="auto-style3"><asp:TextBox ID="tb_cardName" runat="server" ></asp:TextBox>
                     </td>
@@ -94,7 +112,7 @@
                 <tr>
                     <td class="auto-style2">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Label ID="lbl_cardNumber" runat="server" Text="Card Number:"></asp:Label>
+            <asp:Label ID="lbl_cardNumber" runat="server" Text="Card Number"></asp:Label>
                     </td>
                     <td class="auto-style3"><asp:TextBox ID="tb_cardNumber" runat="server"></asp:TextBox>
                     </td>
@@ -106,7 +124,7 @@
                 <tr>
                     <td class="auto-style2">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Label ID="lbl_cvv" runat="server" Text="CVV:"></asp:Label>
+            <asp:Label ID="lbl_cvv" runat="server" Text="CVV"></asp:Label>
                     </td>
                     <td class="auto-style3"><asp:TextBox ID="tb_cvv" runat="server"></asp:TextBox>
                     </td>
@@ -117,7 +135,7 @@
                 </tr>
                 <tr>
                     <td class="auto-style2">
-            <asp:Label ID="lbl_expiryDate" runat="server" Text="Card Expiry Date (MM/YY):"></asp:Label>
+            <asp:Label ID="lbl_expiryDate" runat="server" Text="Card Expiry Date (MM/YY)"></asp:Label>
                     </td>
                     <td class="auto-style3"><asp:TextBox ID="tb_expiryDate" runat="server"></asp:TextBox>
                     </td>
@@ -128,9 +146,19 @@
                 <tr>
                     <td class="auto-style2">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Label ID="lbl_birthDate" runat="server" Text="Birth Date (dd-mm-yyyy):"></asp:Label>
+            <asp:Label ID="lbl_birthDate" runat="server" Text="Birth Date (dd-mm-yyyy)"></asp:Label>
                     </td>
-                    <td class="auto-style3"><asp:TextBox  ID="tb_birthDate" placeholder="21-10-2003" runat="server"></asp:TextBox>
+                    <td class="auto-style3"><asp:TextBox  ID="tb_birthDate" runat="server"></asp:TextBox>
+                        <asp:ImageButton ID="ImageButton1" runat="server" Height="41px" ImageUrl="~/Photos/calendar.jpg" OnClick="ImageButton1_Click" Width="48px" />
+                        <asp:Calendar ID="Calendar1" runat="server" BackColor="#FFFFCC" BorderColor="#FFCC66" BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt" ForeColor="#663399" Height="200px" OnDayRender="Calendar1_DayRender" OnSelectionChanged="Calendar1_SelectionChanged" ShowGridLines="True" Width="220px">
+                            <DayHeaderStyle BackColor="#FFCC66" Font-Bold="True" Height="1px" />
+                            <NextPrevStyle Font-Size="9pt" ForeColor="#FFFFCC" />
+                            <OtherMonthDayStyle ForeColor="#CC9966" />
+                            <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
+                            <SelectorStyle BackColor="#FFCC66" />
+                            <TitleStyle BackColor="#990000" Font-Bold="True" Font-Size="9pt" ForeColor="#FFFFCC" />
+                            <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
+                        </asp:Calendar>
                     </td>
                     <td><asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ControlToValidate="tb_birthDate" Display="Dynamic" ErrorMessage="Birth Date is required" ForeColor="Red" SetFocusOnError="True" ValidationGroup="AllValidators">*</asp:RequiredFieldValidator>
             <asp:RangeValidator ID="RangeValidator1" runat="server" ControlToValidate="tb_birthDate" Display="Dynamic" ErrorMessage="Age must be between 7 and 120" ForeColor="Red" SetFocusOnError="True" Type="Date" ValidationGroup="AllValidators">Invalid Birth Date</asp:RangeValidator>
@@ -139,7 +167,7 @@
                 <tr>
                     <td class="auto-style2">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Label ID="lbl_email" runat="server" Text="Email:"></asp:Label>
+            <asp:Label ID="lbl_email" runat="server" Text="Email"></asp:Label>
                     </td>
                     <td class="auto-style3"><asp:TextBox TextMode="Email" ID="tb_email" runat="server"></asp:TextBox>
                     </td>
@@ -150,24 +178,43 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="auto-style2">
+                    <td class="auto-style4">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Label ID="lbl_password" runat="server" Text="Password"></asp:Label>
-                        :</td>
+                        </td>
                     <td class="auto-style3">
             <asp:TextBox ID="tb_pwd" onkeyup="javascript:validate()" TextMode="Password"  runat="server"></asp:TextBox>
                     </td>
-                    <td>
+                    <td class="auto-style6">
             <asp:Label ID="lbl_pwdchecker" runat="server"></asp:Label>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" ControlToValidate="tb_pwd" Display="Dynamic" ErrorMessage="Password is required" ForeColor="Red" SetFocusOnError="True" ValidationGroup="AllValidators">*</asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
                     <td class="auto-style2">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Label ID="lbl_photo" runat="server" Text="User Photo:"></asp:Label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <asp:Label ID="Label6" runat="server" Text="Confirm password"></asp:Label>
                     </td>
                     <td class="auto-style3">
+                        <asp:TextBox ID="tb_cfmpwd" TextMode="Password" runat="server"></asp:TextBox>
+
+                    </td>
+                    <td>
+
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidatorCfmpwd" runat="server" ControlToValidate="tb_cfmpwd" ErrorMessage="Confirm password is required" ForeColor="Red" SetFocusOnError="True" Display="Dynamic" ValidationGroup="AllValidators">*</asp:RequiredFieldValidator>
+                        <asp:CompareValidator ID="CompareValidatorCfmpwd" runat="server" ControlToCompare="tb_pwd" ControlToValidate="tb_cfmpwd" ErrorMessage="Passwords do not match" ForeColor="Red" SetFocusOnError="True" Display="Dynamic">Passwords do not match</asp:CompareValidator>
+
+                    </td>
+                </tr>
+                                
+                <tr>
+                    <td class="auto-style2">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Label ID="lbl_photo" runat="server" Text="User Photo"></asp:Label>
+                    </td>
+                    <td class="auto-style3">
+                        
+
                         <asp:FileUpload ID="FileUpload1" runat="server" Width="276px" accept=".png, .jpg, .jpeg, .bmp, .gif"/>
 
                     </td>
@@ -179,16 +226,18 @@
 
                     </td>
                 </tr>
-                                
+
                 <tr>
                     <td class="auto-style2">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Label ID="Label5" runat="server" Text="What is your role?"></asp:Label>
                     </td>
                     <td class="auto-style3">
                         
 
-                        &nbsp;</td>
+                        <asp:RadioButton ID="rbtn_student" runat="server"  CausesValidation="True" EnableTheming="True" GroupName="RoleGroup" Text="Student" />
+                        <asp:RadioButton ID="rbtn_staff" runat="server" GroupName="RoleGroup" Text="Staff" />
+                    </td>
                     <td>
 
                         &nbsp;</td>

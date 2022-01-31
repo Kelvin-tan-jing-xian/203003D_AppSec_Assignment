@@ -21,7 +21,7 @@ namespace _203003D_AppSec_Assignment.Auth
         static string randomNumber;
         protected void Page_Load(object sender, EventArgs e)
         {
-            lbl_display.Text = "Your email is " + Request.QueryString["emailadd"].ToString() + " , Kindly check your mail inbox for OTP code";
+            lbl_display.Text = "Your email is " + HttpUtility.HtmlEncode(Request.QueryString["emailadd"].ToString()) + " , Kindly check your mail inbox for OTP code";
         }
 
         protected void Button1_Click(object sender, EventArgs e)

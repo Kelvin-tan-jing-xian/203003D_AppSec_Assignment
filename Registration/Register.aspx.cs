@@ -32,7 +32,10 @@ namespace _203003D_AppSec_Assignment
         {
             RangeValidator1.MinimumValue = DateTime.Now.AddYears(-120).ToShortDateString();
             RangeValidator1.MaximumValue = DateTime.Now.AddYears(-7).ToShortDateString();
-                
+            if (!IsPostBack)
+            {
+                Calendar1.Visible = false;
+            }
         }
         private int checkPassword(string password)
         {
@@ -192,7 +195,15 @@ namespace _203003D_AppSec_Assignment
                             Random random = new Random();
                             activationcode = random.Next(1001, 9999).ToString();
                             cmd.Parameters.AddWithValue("@ActivationCode", activationcode);
-                            cmd.Parameters.AddWithValue("@role", "student");
+
+                            if (rbtn_student.Checked)
+                            {
+                                cmd.Parameters.AddWithValue("@role", rbtn_student.Text.Trim());
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@role", rbtn_staff.Text.Trim());
+                            }
 
 
                             cmd.Connection = con;
@@ -219,7 +230,7 @@ namespace _203003D_AppSec_Assignment
             smtp.EnableSsl = true;
             MailMessage msg = new MailMessage();
             msg.Subject = "Verify your email address";
-            msg.Body = "Dear " + tb_fname.Text + ", Your activation code is " + activationcode + "\n\n\nThanks & Regards\nSITConnect";
+            msg.Body = "Dear " + HttpUtility.HtmlEncode(tb_fname.Text) + ", Your activation code is " + activationcode + "\n\n\nThanks & Regards\nSITConnect";
             string toaddress = tb_email.Text;
             msg.To.Add(toaddress);
             string fromaddress = "SITConnect <dummytrashtest2@gmail.com>";
@@ -277,6 +288,35 @@ namespace _203003D_AppSec_Assignment
             }
             finally { }
             return cipherText;
+        }
+
+        protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
+        {
+            if (Calendar1.Visible)
+            {
+                Calendar1.Visible = false;
+
+            }
+            else
+            {
+                Calendar1.Visible = true;
+
+            }
+        }
+
+        protected void Calendar1_SelectionChanged(object sender, EventArgs e)
+        {
+            tb_birthDate.Text = Calendar1.SelectedDate.ToShortDateString();
+            Calendar1.Visible = false;
+        }
+
+        protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
+        {
+            if (e.Day.IsOtherMonth)
+            {
+                e.Day.IsSelectable = false;
+                e.Cell.BackColor = Color.Red;
+            }
         }
 
     }

@@ -49,7 +49,7 @@
                     <tr>
                         <td class="auto-style2">&nbsp;</td>
                         <td>
-                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Registration/ResetPassword.aspx">Forgot Password?</asp:HyperLink>
+                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Auth/ResetPassword.aspx">Forgot Password?</asp:HyperLink>
                         </td>
                     </tr>
                     <tr>
