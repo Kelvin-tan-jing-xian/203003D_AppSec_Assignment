@@ -54,8 +54,17 @@ namespace _203003D_AppSec_Assignment.Auth
                                 TimeSpan timeSub = DateTime.Now - OtpCrtDate;
                                 if (timeSub.TotalSeconds < 60)
                                 {
-                                    changeStatus();
-                                    Response.Redirect("~/HomePage.aspx", false);
+                                    if (getRole() == "admin")
+                                    {
+                                        Response.Redirect("~/Admin/ManageUsers.aspx", false);
+
+                                    }
+                                    else
+                                    {
+                                        changeStatus();
+                                        Response.Redirect("~/HomePage.aspx", false);
+
+                                    }
 
                                 }
                                 else
@@ -92,6 +101,36 @@ namespace _203003D_AppSec_Assignment.Auth
             cmd.ExecuteNonQuery();
 
         }
+        private string getRole()
+        {
+
+            List<SqlParameter> paramList = new List<SqlParameter>()
+            {
+                new SqlParameter()
+                {
+                    ParameterName = "@Email",
+                    Value = Session["LoggedIn"].ToString()
+                },
+
+            };
+            return ExecuteSP("spGetRole", paramList);
+        }
+        private string ExecuteSP(string SPName, List<SqlParameter> SPParameters)
+        {
+            string CS = ConfigurationManager.ConnectionStrings["MYDBConnection"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                SqlCommand cmd = new SqlCommand(SPName, con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                foreach (SqlParameter parameter in SPParameters)
+                {
+                    cmd.Parameters.Add(parameter);
+                }
+                con.Open();
+                return Convert.ToString(cmd.ExecuteScalar());
+            }
+        }
+
 
     }
 }

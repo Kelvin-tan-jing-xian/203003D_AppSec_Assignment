@@ -32,7 +32,10 @@ namespace _203003D_AppSec_Assignment
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                Session["invalidloginattempt"] = null;
+            }
         }
         public bool ValidateCaptcha()
         {
@@ -81,6 +84,7 @@ namespace _203003D_AppSec_Assignment
 
         protected void LoginMe(object sender, EventArgs e)
         {
+
             string pwd = tb_pwd.Text.ToString().Trim();
             string userid = tb_email.Text.ToString().Trim();
             SHA512Managed hashing = new SHA512Managed();
@@ -90,33 +94,92 @@ namespace _203003D_AppSec_Assignment
             {
                 try
                 {
+                    SqlConnection scon = new SqlConnection(MYDBConnectionString);
+                    SqlCommand cmd = new SqlCommand("Select Email, PasswordHash, locked, lockdatetime from Account where Email = @Email");
+                    cmd.Parameters.AddWithValue("@Email", userid);
+                    cmd.Connection = scon;
+                    SqlDataAdapter da = new SqlDataAdapter();
+                    da.SelectCommand = cmd;
+                    DataSet ds = new DataSet();
+                    da.Fill(ds);
+                    bool lockstatus;
+                    DateTime locktimedate = DateTime.Now;
+
                     if (dbSalt != null && dbSalt.Length > 0 && dbHash != null && dbHash.Length > 0)
                     {
                         string pwdWithSalt = pwd + dbSalt;
                         byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
                         string userHash = Convert.ToBase64String(hashWithSalt);
-
-
-                        // Check for password and password 
-                        if (userHash.Equals(dbHash))
+                        string uname = ds.Tables[0].Rows[0]["Email"].ToString();
+                        string pass = ds.Tables[0].Rows[0]["PasswordHash"].ToString();
+                        lockstatus = Convert.ToBoolean(ds.Tables[0].Rows[0]["locked"].ToString());
+                        if (lockstatus == true)
                         {
-                            Session["LoggedIn"] = tb_email.Text.Trim();
-
-                            // createa a new GUID and save into the session
-                            string guid = Guid.NewGuid().ToString();
-                            Session["AuthToken"] = guid;
-
-                            // now create a new cookie with this guid value
-                            Response.Cookies.Add(new HttpCookie("AuthToken", guid));
-                            InsertOTPinDB();
-                            sendCode();
-                            Response.Redirect("~/Auth/EnterOTP.aspx?emailadd=" + tb_email.Text, false);
+                            locktimedate = Convert.ToDateTime(ds.Tables[0].Rows[0]["lockdatetime"].ToString());
+                            locktimedate = Convert.ToDateTime(locktimedate.ToString("dd/MM/yyyy HH:mm:ss"));
+                        }
+                        scon.Close();
+                        if (lockstatus == true)
+                        {
+                            DateTime cdatetime = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+                            TimeSpan ts = cdatetime.Subtract(locktimedate);
+                            Int32 minuteslocked = Convert.ToInt32(ts.TotalMinutes);
+                            Int32 pendingminutes = 1 - minuteslocked;
+                            if (pendingminutes <= 0)
+                            {
+                                unlockaccount(userid);
+                            }
+                            else
+                            {
+                                loginMessage.Text = "Your account has been locked for 1 minute due to three invalid attempts. Your account will be unlocked automatically after 1 minute";
+                            }
 
                         }
                         else
                         {
-                            loginMessage.Text = "Wrong username or password";
+
+                            // Check for password and password 
+                            if (userHash.Equals(dbHash))
+                            {
+                                Session["LoggedIn"] = tb_email.Text.Trim();
+                                // createa a new GUID and save into the session
+                                string guid = Guid.NewGuid().ToString();
+                                Session["AuthToken"] = guid;
+
+                                // now create a new cookie with this guid value
+                                Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+                                InsertOTPinDB();
+                                sendCode();
+                                Response.Redirect("~/Auth/EnterOTP.aspx?emailadd=" + tb_email.Text, false);
+
+                            }
+                            else
+                            {
+                                int attemptcount;
+                                if (Session["invalidloginattempt"] != null)
+                                {
+                                    attemptcount = Convert.ToInt16(Session["invalidloginattempt"].ToString());
+                                    attemptcount = attemptcount + 1;
+
+                                }
+                                else
+                                {
+                                    attemptcount = 1;
+                                }
+                                Session["invalidloginattempt"] = attemptcount;
+                                if (attemptcount == 3)
+                                {
+                                    loginMessage.Text = "Your account has been locked for 1 minute for three invalid attempts. Your account will be unlocked automatically after 1 minute";
+                                    changelockstatus(userid);
+                                }
+                                else
+                                {
+                                    loginMessage.Text = "Invalid Username or Password. You have " + (3 - attemptcount) + " remaining attempts to login";
+                                }
+                            }
                         }
+
+
 
                     }
 
@@ -131,6 +194,26 @@ namespace _203003D_AppSec_Assignment
             {
                 loginMessage.Text = "Validate captcha to prove that you are a human.";
             }
+        }
+        void changelockstatus(string username)
+        {
+            SqlConnection con = new SqlConnection(MYDBConnectionString);
+            con.Open();
+            SqlCommand cmd = new SqlCommand("Update Account set locked = 1, lockdatetime = @lockdatetime where Email = @Email");
+            cmd.Parameters.AddWithValue("@lockdatetime", DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss"));
+            cmd.Parameters.AddWithValue("@Email", username);
+            cmd.Connection = con;
+            cmd.ExecuteNonQuery();
+        }
+        void unlockaccount(string username)
+        {
+            SqlConnection con = new SqlConnection(MYDBConnectionString);
+            con.Open();
+            SqlCommand cmd = new SqlCommand("Update Account set locked = 0, lockdatetime = NULL where Email = @Email");
+            cmd.Parameters.AddWithValue("@Email", username);
+            cmd.Connection = con;
+            cmd.ExecuteNonQuery();
+
         }
         public void InsertOTPinDB()
         {

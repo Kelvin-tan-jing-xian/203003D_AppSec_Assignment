@@ -48,7 +48,7 @@ namespace _203003D_AppSec_Assignment
         }
         private void SendPasswordResetEmail(string ToEmail, string UserName, string UniqueId)
         {
-            MailMessage mailMessage = new MailMessage("dummyTrashTest12@gmail.com", ToEmail);
+            MailMessage mailMessage = new MailMessage("dummytrashtest2@gmail.com", ToEmail);
 
             StringBuilder sbEmailBody = new StringBuilder();
             sbEmailBody.Append("Dear " + UserName + ",<br/><br/>");

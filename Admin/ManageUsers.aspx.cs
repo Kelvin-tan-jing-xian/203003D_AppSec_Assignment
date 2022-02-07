@@ -16,6 +16,10 @@ namespace _203003D_AppSec_Assignment
         {
             if (!IsPostBack)
             {
+                if (getRole() != "admin")
+                {
+                    Response.Redirect("~/CustomError/HTTP403.aspx", false);
+                }
 
                 DataSet dset = new DataSet();
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["MYDBConnection"].ToString()); // MYDBConnectionString
@@ -65,5 +69,35 @@ namespace _203003D_AppSec_Assignment
 
 
         }
+        private string getRole()
+        {
+
+            List<SqlParameter> paramList = new List<SqlParameter>()
+            {
+                new SqlParameter()
+                {
+                    ParameterName = "@Email",
+                    Value = Session["LoggedIn"].ToString()
+                },
+
+            };
+            return ExecuteSP("spGetRole", paramList);
+        }
+        private string ExecuteSP(string SPName, List<SqlParameter> SPParameters)
+        {
+            string CS = ConfigurationManager.ConnectionStrings["MYDBConnection"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                SqlCommand cmd = new SqlCommand(SPName, con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                foreach (SqlParameter parameter in SPParameters)
+                {
+                    cmd.Parameters.Add(parameter);
+                }
+                con.Open();
+                return Convert.ToString(cmd.ExecuteScalar());
+            }
+        }
+
     }
 }
